@@ -1,0 +1,4 @@
+- for Linux: add `parted -l` output to collection to collect the size of partitions and drives
+- and `df -h`output
+
+- add for Solaris: prtvtoc or fdisk -l as well
