@@ -89,53 +89,55 @@ HOWTO:
 
 3) run `install_watchperf.sh` to install the tool and configure it
 
-   For further information on the installation, run install_watchperf.sh -h .
+   For further information on the installation, run `install_watchperf.sh -h` .
         
-      It's recommended to accept the default settings (just run install_watchperf.sh -d)
+   It's recommended to accept the default settings (just run install_watchperf.sh -d)
         Default settings are:
+```
                 DEFAULT_INSTALL_DIR=/var/tmp/watchperf
                 DEFAULT_OUTPUT_DIR=/tmp/watchperf
                 DEFAULT_TIMETORUN=5
                 DEFAULT_GZIP=-z
 		MAXSPACE=1024000
-
+```
         
-        After installation, one can change the parameters by editing the 
-        configuration file. The configuration file is named .watchperf_settings and
-        is located in the install directory. The name of the configuration file
-        cannot be changed !
+   After installation, one can change the parameters by editing the 
+   configuration file. The configuration file is named `.watchperf_settings` and
+   is located in the install directory. The name of the configuration file
+   cannot be changed !
 
 
 4) If running via crontab:
 
-	- add the wrapper-controlwatchperf.sh to crontab to run continuously 
-          For instance, set it run every 5 minutes again if run time above
-          was choosen to be 5 minutes - thus covering the whole time.
-            
-	  For instance: 
+   - add the wrapper-controlwatchperf.sh to crontab to run continuously 
+     For instance, set it run every 5 minutes again if run time above
+     was choosen to be 5 minutes - thus covering the whole time.
+     
+     Example: 
 ```
           0,5,10,15,20,25,30,35,40,45,50,55 * * * * /bin/sh -c /var/tmp/watchperf/wrapper-controlwatchperf.sh &
 ```        
-        - to stop collection, simple disable it in crontab
+   - to stop collection, simple disable it in crontab
 
-	When used for troubleshooting the time to start should be
+     When used for troubleshooting the time to start should be
 	not aligned with the start time of the program to monitor the system for.
-	Because of start time some glitches might be missing from the start
+	Because of start time, some glitches might be missing from the start
 	of the program in question. Please keep in mind that there are 5 seconds
-	pause after 55 seconds of data collection to calm the load posed by the
-	data collection itself. During these 5 seconds nothing is collected, so
+	pause after 55 seconds of data collection to calm down the load posed by the
+	data collection itself. During these 5 seconds, nothing is collected, so
 	valueable information might be lost.
 
 5) If not running from crontab:
 
-        - one should use nohup to avoid stopping collection once a logout and HUP
-          occures:
+   - one should use nohup to avoid stopping collection once a logout and HUP occures:
 
-            example: nohup /bin/sh /var/tmp/watchperf/wrapper-controlwatchperf.sh &
-
-        - to stop collection before time to run is over: simply look for the proc ID
-          of the wrapper-controlwatchperf.sh process and send it a kill (if started via nohup)
-          or simply kill the process from shell by hitting ^C (or it's replacement, depending
+     Example: 
+```
+     nohup /bin/sh /var/tmp/watchperf/wrapper-controlwatchperf.sh &
+```
+   - to stop collection before time to run is over: simply look for the proc ID
+          of the `wrapper-controlwatchperf.sh` process and send it a kill (if started via nohup)
+          or simply kill the process from shell by hitting `^C` (or it's replacement, depending
           on your terminal settings)
 
 
@@ -173,4 +175,4 @@ CONFIGURATION FILE:
 
 Known Issues:
 
-- On Oracle/Sun Servers using the T2 or T3 processors (like T5220, for instance), one might encounter drops of probe data due to high load placed by dtrace on a single core. You might consider to disable dtrace, if no granular IO data is needed - like offsets of IOs and IO size distribution. (use -D option) Although UltraSPARC IIi processors are somewhat older, on a U10 and a U80 with 4 processors this wasn't observed. On U10 with only 384 MB memory the buffer size for dtrace was reduced only.
+- On Oracle/Sun Servers using the T2 or T3 processors (like T5220, for instance), one might encounter drops of probe data due to high load placed by dtrace on a single core. You might consider to disable dtrace if no granular IO data is needed - like offsets of IOs and IO size distribution; use `-D` option. Although UltraSPARC IIi processors are *somewhat* older, on a U10 and a U80 with 4 processors this wasn't observed. On U10 with only 384 MB memory the buffer size for dtrace was reduced only.
