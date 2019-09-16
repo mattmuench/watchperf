@@ -1,5 +1,16 @@
 README of watchperf package: - ver 1.9.0, 2019/09/04
 -----------------------------------------------
+
+Purpose of the toolset is to orchestrate OS standard performance visualization tools, like iostat, vmstat, mpstat, etc., to be run in a long term data collection.
+
+The goal is to 
+- provide a tool that is providing performance data in a fully transparent manner
+- require as much little as possible additional tools to run
+- requires as much little as possible additional performance
+- can be run even in security concerned environments
+- doesn't require nor uses any internet connection to collect the data
+- can be used to collect data on as many nodes as one needs.
+
 NOTES:
 
 - This package must be installed, because install script sets proper paths for destination environment (install dir, output dir and location of tools). 
@@ -12,7 +23,7 @@ NOTES:
 	  
 - It supports Solaris 10 SPARC/x64, generic Linux versions and MacOS X. Note that MacOS X support is very limited in terms of performance data because of limitations in the standard tools.
 
-- To run the tool successfully on Linux systems systools (iostat, vmstat, mpstat, etc.) *must be installed* on the system.
+- To run the tool successfully on Linux systems, systools (iostat, vmstat, mpstat, etc.) *must be installed* on the system.
 
 - Having too large data files makes it difficult to compress the files quickly before starting the whole thing again. Although placing the drop directory into tmpfs (i.e. /tmp) makes it very quick, some time is needed by the gzip itself. Running for 5 minutes would be a good  fit.
 
