@@ -31,6 +31,7 @@
 # 3.9	2018/04/23 MM	- added lsblk output for Linux
 #			- disabled device links for Linux
 # 4.0 2019/09/16 MM - minor cleanups
+# 4.1 2019/09/18 MM - added OS_RELEASE to distinguish different Linux distributions (currently, added RHEL only)
 
 #
 #
@@ -56,7 +57,7 @@ DEBUG_PROCS=
 # create a new timestamp
 #
 timestamp() {
-        $CMD_ECHO "watchperf timestamp `$CMD_DATE +%d.%m.%Y-%H:%M:%S` $OSVERSION"
+        $CMD_ECHO "watchperf timestamp `$CMD_DATE +%d.%m.%Y-%H:%M:%S` $OSVERSION $OS_RELEASE"
 }
 
 
@@ -174,6 +175,9 @@ case $OS in
         Linux)  # supported currently all Linux - not distinguished yet
 		# Test iostat supported switches: -xcnNt would be nice, else -xct, -xcnt or -xcNt
 		LX_IOSTAT_SWITCHES=`iostat -\? 2>&1|grep '\] \['|grep -v device|grep -v iostat|tr -d '[]|\-'|tr '[:blank:]' '\n'|grep [xcknNt]|tr -d '\n'`
+		if [ -r /etc/redhat-release ]; then
+			OS_RELEASE=RHEL
+		fi
                 ;;
 
         Darwin) # basic MacOS X support
